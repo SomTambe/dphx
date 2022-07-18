@@ -47,72 +47,15 @@ import "views/api/api.js";
 import { stpTemp, strTemp, TempFlowAq, updateRelay} from "./api/api";
 
 const Dashboard = () => {
-  const [bigChartData, setbigChartData] = React.useState("data1");
-  const setBgChartData = (name) => {
-    setbigChartData(name);
-  };
-  const [ThinPlotData, setThinPlotData] = React.useState(Array.from({length: 10}, (_, i) => 0));
-  const [ThoutPlotData, setThoutPlotData] = React.useState(Array.from({length: 10}, (_, i) => 0));
-  const labels = [...Array(10).keys()];
-  const thisData = (canvas) => {
-    let ctx = canvas.getContext("2d");
-    let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-    gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-    gradientStroke.addColorStop(0, "rgba(29,140,248,0)");
-
-    return {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Thin',
-          data: ThinPlotData,
-          fill: true,
-          backgroundColor: ctx.createLinearGradient(0, 230, 0, 50),
-          borderColor: "#1f8ef1",
-          borderWidth: 2,
-          borderDash: [],
-          borderDashOffset: 0.0,
-          pointBackgroundColor: "#1f8ef1",
-          pointBorderColor: "rgba(255,255,255,0)",
-          pointHoverBackgroundColor: "#1f8ef1",
-          pointBorderWidth: 20,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 15,
-          pointRadius: 4,
-          yAxisID: 'y',
-        },
-        // {
-        //   label: 'Thout',
-        //   data: ThoutPlotData,
-        //   fill: true,
-        //   backgroundColor: ctx.createLinearGradient(0, 230, 0, 50),
-        //   borderColor: "#1f8ef1",
-        //   borderWidth: 2,
-        //   borderDash: [],
-        //   borderDashOffset: 0.0,
-        //   pointBackgroundColor: "#1f8ef1",
-        //   pointBorderColor: "rgba(255,255,255,0)",
-        //   pointHoverBackgroundColor: "#1f8ef1",
-        //   pointBorderWidth: 20,
-        //   pointHoverRadius: 4,
-        //   pointHoverBorderWidth: 15,
-        //   pointRadius: 4,
-        //   yAxisID: 'y1',
-        // },
-      ]
-    };
-  };
-
+  
   const [runStat, setrunStat] = React.useState(false);
-  const [Thin, setThin] = React.useState(41.0);
-  const [Thout, setThout] = React.useState(42.0);
-  const [Tcin, setTcin] = React.useState(43.0);
-  const [Tcout, setTcout] = React.useState(44.0);
-  const [Fhot, setFhot] = React.useState(45.0);
-  const [Fcold, setFcold] = React.useState(46.0);
-  const [Tsetpt, setTsetpt] = React.useState(40.0);
+  const [Thin, setThin] = React.useState(0.0);
+  const [Thout, setThout] = React.useState(0.0);
+  const [Tcin, setTcin] = React.useState(0.0);
+  const [Tcout, setTcout] = React.useState(0.0);
+  const [Fhot, setFhot] = React.useState(0.0);
+  const [Fcold, setFcold] = React.useState(0.0);
+  const [Tsetpt, setTsetpt] = React.useState(0.0);
   const [fetchTimer, setFetchTimer] = React.useState(null);
   const [fetchRelay, setFetchRelay] = React.useState(false);
 
@@ -168,29 +111,6 @@ const Dashboard = () => {
     <>
       <div className="content">
         <Row>
-          <Col xs="6"> 
-            <Card className="card-chart">
-              <CardHeader>
-                <Row>
-                  <Col className="text-left" sm="6">
-                    <h5 className="card-category">Live Plot</h5>
-                    <CardTitle tag="h4">Temperature</CardTitle>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <div className="chart-area">
-                  <Line
-                    data={chartExample1[bigChartData]}
-                    // data = {thisData}
-                    options={chartExample1.options}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xs="6">
-            <Row>
               <Col xs="6">
                 <Card className="card-stats">
                   <CardBody>
@@ -243,116 +163,114 @@ const Dashboard = () => {
                   </CardFooter> */}
                 </Card>
               </Col>
-            </Row>
-            <Row>
-              <Col xs="6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col xs="5">
-                        <div className="info-icon text-center icon-success">
-                          <i className="tim-icons icon-alert-circle-exc" />
-                        </div>
-                      </Col>
-                      <Col xs="7">
-                        <div className="numbers">
-                          {/* <p className="card-category">T<sub>cold</sub> inlet</p> */}
-                          <CardTitle tag="h6">T<sub>cold</sub> inlet</CardTitle>
-                          <CardTitle tag="h3">{Tcin.toFixed(4)} <sup>O</sup>C</CardTitle>
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  {/* <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="tim-icons icon-trophy" /> Customers feedback
+        </Row>
+        <Row>
+          <Col xs="6">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col xs="5">
+                    <div className="info-icon text-center icon-success">
+                      <i className="tim-icons icon-alert-circle-exc" />
                     </div>
-                  </CardFooter> */}
-                </Card>
-              </Col>
-              <Col xs="6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col xs="5">
-                        <div className="info-icon text-center icon-success">
-                          <i className="tim-icons icon-alert-circle-exc" />
-                        </div>
-                      </Col>
-                      <Col xs="7">
-                        <div className="numbers">
-                          {/* <p className="card-category">T<sub>cold</sub> outlet</p> */}
-                          <CardTitle tag="h6">T<sub>cold</sub> outlet</CardTitle>
-                          <CardTitle tag="h3">{Tcout.toFixed(4)} <sup>O</sup>C</CardTitle>
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  {/* <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="tim-icons icon-watch-time" /> In the last hours
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      {/* <p className="card-category">T<sub>cold</sub> inlet</p> */}
+                      <CardTitle tag="h6">T<sub>cold</sub> inlet</CardTitle>
+                      <CardTitle tag="h3">{Tcin.toFixed(4)} <sup>O</sup>C</CardTitle>
                     </div>
-                  </CardFooter> */}
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs="6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col xs="5">
-                        <div className="info-icon text-center icon-success">
-                          <i className="tim-icons icon-alert-circle-exc" />
-                        </div>
-                      </Col>
-                      <Col xs="7">
-                        <div className="numbers">
-                          {/* <p className="card-category">T<sub>cold</sub> inlet</p> */}
-                          <CardTitle tag="h6">F<sub>cold</sub></CardTitle>
-                          <CardTitle tag="h3">{Fcold.toFixed(4)} LPH</CardTitle>
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  {/* <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="tim-icons icon-trophy" /> Customers feedback
+                  </Col>
+                </Row>
+              </CardBody>
+              {/* <CardFooter>
+                <hr />
+                <div className="stats">
+                  <i className="tim-icons icon-trophy" /> Customers feedback
+                </div>
+              </CardFooter> */}
+            </Card>
+          </Col>
+          <Col xs="6">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col xs="5">
+                    <div className="info-icon text-center icon-success">
+                      <i className="tim-icons icon-alert-circle-exc" />
                     </div>
-                  </CardFooter> */}
-                </Card>
-              </Col>
-              <Col xs="6">
-                <Card className="card-stats">
-                  <CardBody>
-                    <Row>
-                      <Col xs="5">
-                        <div className="info-icon text-center icon-success">
-                          <i className="tim-icons icon-alert-circle-exc" />
-                        </div>
-                      </Col>
-                      <Col xs="7">
-                        <div className="numbers">
-                          {/* <p className="card-category">T<sub>cold</sub> outlet</p> */}
-                          <CardTitle tag="h6">F<sub>hot</sub></CardTitle>
-                          <CardTitle tag="h3">{Fhot.toFixed(4)} LPH</CardTitle>
-                        </div>
-                      </Col>
-                    </Row>
-                  </CardBody>
-                  {/* <CardFooter>
-                    <hr />
-                    <div className="stats">
-                      <i className="tim-icons icon-watch-time" /> In the last hours
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      {/* <p className="card-category">T<sub>cold</sub> outlet</p> */}
+                      <CardTitle tag="h6">T<sub>cold</sub> outlet</CardTitle>
+                      <CardTitle tag="h3">{Tcout.toFixed(4)} <sup>O</sup>C</CardTitle>
                     </div>
-                  </CardFooter> */}
-                </Card>
-              </Col>
-            </Row>
-          </Col>  
+                  </Col>
+                </Row>
+              </CardBody>
+              {/* <CardFooter>
+                <hr />
+                <div className="stats">
+                  <i className="tim-icons icon-watch-time" /> In the last hours
+                </div>
+              </CardFooter> */}
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="6">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col xs="5">
+                    <div className="info-icon text-center icon-success">
+                      <i className="tim-icons icon-alert-circle-exc" />
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      {/* <p className="card-category">T<sub>cold</sub> inlet</p> */}
+                      <CardTitle tag="h6">F<sub>cold</sub></CardTitle>
+                      <CardTitle tag="h3">{Fcold.toFixed(4)} LPH</CardTitle>
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              {/* <CardFooter>
+                <hr />
+                <div className="stats">
+                  <i className="tim-icons icon-trophy" /> Customers feedback
+                </div>
+              </CardFooter> */}
+            </Card>
+          </Col>
+          <Col xs="6">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col xs="5">
+                    <div className="info-icon text-center icon-success">
+                      <i className="tim-icons icon-alert-circle-exc" />
+                    </div>
+                  </Col>
+                  <Col xs="7">
+                    <div className="numbers">
+                      {/* <p className="card-category">T<sub>cold</sub> outlet</p> */}
+                      <CardTitle tag="h6">F<sub>hot</sub></CardTitle>
+                      <CardTitle tag="h3">{Fhot.toFixed(4)} LPH</CardTitle>
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              {/* <CardFooter>
+                <hr />
+                <div className="stats">
+                  <i className="tim-icons icon-watch-time" /> In the last hours
+                </div>
+              </CardFooter> */}
+            </Card>
+          </Col>
         </Row>
         <Row>
           <Col>
