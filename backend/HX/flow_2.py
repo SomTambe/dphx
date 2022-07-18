@@ -1,10 +1,10 @@
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time, sys
 import random, csv
  
 FLOW_SENSOR_GPIO = 8 # cold flow rate
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setup(FLOW_SENSOR_GPIO, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(FLOW_SENSOR_GPIO, GPIO.IN, pull_up_down = GPIO.PUD_UP)
 
 fields = ['Fcold']
 global count
@@ -28,19 +28,19 @@ def csvWrite(val, fn):
     csvwriter.writerow(val)
     csvfile.close()
 
-# GPIO.add_event_detect(FLOW_SENSOR_GPIO, GPIO.FALLING, callback=countPulse)
+GPIO.add_event_detect(FLOW_SENSOR_GPIO, GPIO.FALLING, callback=countPulse)
 
 def startLogs(fn):
     flow = 0
     global start_counter
     while True:
-        # start_counter = 1
-        # time.sleep(2)
-        # start_counter = 0
-        # flow = (count / 7.5) 
-        # print("The flow is: %.3f Liter/min" % (flow))
-        # count = 0
-        flow = random.random()
+        start_counter = 1
+        time.sleep(2)
+        start_counter = 0
+        flow = (count / 7.5) 
+        print("The flow is: %.3f Liter/min" % (flow))
+        count = 0
+        # flow = random.random()
 
         # print(temperature)
         csvWrite([flow], fn)
